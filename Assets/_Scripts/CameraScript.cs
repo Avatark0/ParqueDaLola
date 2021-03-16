@@ -12,8 +12,8 @@ public class CameraScript : MonoBehaviour{
     private const float Y_ANGLE_MAX = 89f;
 
     private float distance = 8f;
-    private float currentX=0f;
-    private float currentY=0f;
+    private float currentX=24f;
+    private float currentY=94f;
     private float sensivityX=2.3f;
     private float sensivityY=1.6f;
 
@@ -28,8 +28,8 @@ public class CameraScript : MonoBehaviour{
         cameraAnimacao=true;
         tempo=Time.time;
 
-        currentY=24;
-        currentX=94;
+        //currentY=24;
+        //currentX=94;
     }
 
     void Update(){
@@ -42,11 +42,11 @@ public class CameraScript : MonoBehaviour{
     }
 
     private void LateUpdate(){
-        if(!cameraAnimacao){
-            Vector3 dis = new Vector3(0,0,-distance);
-            Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-            camTransform.position = lookAt.position+rotation*dis;
-            camTransform.LookAt(lookAt.position);
-        }
+        Vector3 dist = new Vector3(0,0,-distance);
+        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+        
+        if(!cameraAnimacao)
+            camTransform.position = lookAt.position+rotation*dist;
+        camTransform.LookAt(lookAt.position);
     }
 }

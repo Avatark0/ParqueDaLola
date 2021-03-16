@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class MenuCanvasScript : MonoBehaviour{
 
-    public void Jogar(){
+    public static void Jogar(){
         SceneManager.LoadScene("Jogo");
     }
 
-    public void Inicio(){
+    public static void Inicio(){
         SceneManager.LoadScene("Menu");
     }
 

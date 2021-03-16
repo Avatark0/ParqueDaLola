@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameCanvasScript : MonoBehaviour{
-    private GameObject menuPause;
+    private static GameObject menuPause;
     private GameObject tempoVal;
     private GameObject placarVal;
 
@@ -35,15 +35,31 @@ public class GameCanvasScript : MonoBehaviour{
 
     void Update(){
         placar=LolaScript.pontos;
-        Debug.Log("pontos = "+LolaScript.pontos);
+        placarVal.GetComponent<Text>().text = placar.ToString();
+        
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            if(!jogoPausado)
+            {
+                CursorLockControl.UnlockCursor();
+                Pausar();
+            }
+            else
+            {
+                CursorLockControl.LockCursor();
+                Continuar();
+            }
+        }  
+
         int tempoCont = Mathf.FloorToInt(Time.time) - tempoIni;
         tempoVal.GetComponent<Text>().text = (tempoMax - tempoCont).ToString();
-        placarVal.GetComponent<Text>().text = placar.ToString();
-        if (placar >= 100) Vitoria();
-        if (tempoMax - tempoCont <= 0) FimDeJogo();
-        if (Input.GetKeyDown(KeyCode.Escape)){
-            if (jogoPausado) Continuar();
-            else Pausar();
+
+        if (tempoMax - tempoCont <= 0)
+        {
+            if (placar >= 100) 
+                Vitoria();
+
+            FimDeJogo();
         }
     }
 
@@ -57,15 +73,17 @@ public class GameCanvasScript : MonoBehaviour{
         vitoria=false;
     }
 
-    private void Pausar(){
-        jogoPausado = true;
+    private void Pausar()
+    {
         menuPause.SetActive(true);
+        jogoPausado = true;
         Time.timeScale = 0f;
     }
 
-    public void Continuar(){
-        jogoPausado = false;
+    public static void Continuar()
+    {
         menuPause.SetActive(false);
+        jogoPausado = false;
         Time.timeScale = 1f;
     }
 
@@ -74,15 +92,17 @@ public class GameCanvasScript : MonoBehaviour{
     }
 
     public void FimDeJogo(){
-        if(vitoria)SceneManager.LoadScene("Vitoria");
-        else SceneManager.LoadScene("Derrota");
+        if(vitoria)
+            SceneManager.LoadScene("Vitoria");
+        else 
+            SceneManager.LoadScene("Derrota");
     }
 
     public void Vitoria(){
-        vitoriaObj.SetActive(true);
-        nomeLola.SetActive(false);
-        imagemPessego.SetActive(false);
-        if(!vitoria)Pausar();
+        //vitoriaObj.SetActive(true);
+        //nomeLola.SetActive(false);
+        //imagemPessego.SetActive(false);
+        //if(!vitoria)Pausar();
         vitoria=true;
     }
 }
