@@ -52,11 +52,13 @@ public class GameCanvasScript : MonoBehaviour{
         }  
 
         int tempoCont = Mathf.FloorToInt(Time.time) - tempoIni;
-        tempoVal.GetComponent<Text>().text = (tempoMax - tempoCont).ToString();
+
+        if(Mathf.FloorToInt(Time.time) - tempoIni >= 6)//6 segundos da animação inicial da camera
+            tempoVal.GetComponent<Text>().text = (tempoMax - tempoCont).ToString();
 
         if (tempoMax - tempoCont <= 0)
         {
-            if (placar >= 100) 
+            if (placar >= 150) 
                 Vitoria();
 
             FimDeJogo();
@@ -65,7 +67,7 @@ public class GameCanvasScript : MonoBehaviour{
 
     private void ResetaValores(){
         placar = 0;
-        tempoMax = 180;
+        tempoMax = 186;//180 + 6 da animação de intro
         tempoIni=Mathf.FloorToInt(Time.time);
         jogoPausado=false;
         Time.timeScale = 1f;

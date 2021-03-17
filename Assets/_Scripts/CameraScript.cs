@@ -20,28 +20,36 @@ public class CameraScript : MonoBehaviour{
     private bool cameraAnimacao;//muda o modo da camera para animação/controle
     private float tempo;
 
-    void Start(){
+    void Start()
+    {
         lookAt=GameObject.FindWithTag("Personagem").GetComponent<Transform>();
         camTransform=transform;
         cam=Camera.main;
 
         cameraAnimacao=true;
         tempo=Time.time;
-
-        //currentY=24;
-        //currentX=94;
     }
 
-    void Update(){
-        if(Time.time-tempo>=6.15f)cameraAnimacao=false;
-        if(!cameraAnimacao){
+    void Update()
+    {
+        if(cameraAnimacao)
+        {
+            if(Time.time-tempo>=6.15f)
+            {
+                cameraAnimacao=false;
+                LolaScript.PausaNosControles(false);
+            }
+        }
+        else
+        {
             currentY-= Input.GetAxis("Mouse Y")*sensivityY;
             currentY = Mathf.Clamp(currentY,Y_ANGLE_MIN,Y_ANGLE_MAX);
             currentX+= Input.GetAxis("Mouse X")*sensivityX;
         }
     }
 
-    private void LateUpdate(){
+    private void LateUpdate()
+    {
         Vector3 dist = new Vector3(0,0,-distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
         

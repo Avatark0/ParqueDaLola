@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Derrota.unity
     guid: 93818f52e73a6b94aad75ff513f62256
+  - enabled: 1
+    path: Assets/_Scenes/FinalSecreto.unity
+    guid: 7377555172764a749aac7a9cd9a01cc7
   m_configObjects: {}

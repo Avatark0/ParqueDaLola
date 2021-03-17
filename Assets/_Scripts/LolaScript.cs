@@ -11,7 +11,7 @@ public class LolaScript : MonoBehaviour
     private bool tocandoSuperficie; //Colisão com chão
     private bool movimentando;      //pressionando os botões AWSD 
     private bool temPulo;           //Carga do pulo
-    private bool pausaNosControles; //Tira o controle do usuário, para permitir animação e controle da câmera
+    private static bool pausaNosControles; //Tira o controle do usuário, para permitir animação e controle da câmera
 
     public static int pontos;
     //Controles
@@ -30,9 +30,11 @@ public class LolaScript : MonoBehaviour
         corpoRigido.maxAngularVelocity=maxAngularSpeedAndando;//Inicia a velocidade angular limite andando.
         pausaNosControles=false;
         pontos=0;
+        PausaNosControles(true);
     }
 
-    void Update(){
+    void Update()
+    {
         if(!pausaNosControles)movimentacao();
     }
 
@@ -45,17 +47,25 @@ public class LolaScript : MonoBehaviour
         tocandoSuperficie=false;
     }
 
-    void OnTriggerEnter(Collider col){
-        if(col.gameObject.tag=="Pessego")Pessego(col.gameObject);
-        else if(col.gameObject.tag=="PessegoGig")PessegoGig(col.gameObject);
-        if(col.gameObject.tag=="Arco"){
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.gameObject.tag=="Pessego")
+            Pessego(col.gameObject);
+        else if(col.gameObject.tag=="PessegoGig")
+        {
+            PessegoGig(col.gameObject);
+        }
+        if(col.gameObject.tag=="Arco")
+        {
             Debug.Log("Entrou!");
+            Arco();
         }
     }
 
     void OnTriggerExit(Collider col){
         if(col.gameObject.tag=="Arco"){
             Debug.Log("Saiu!");
+            Arco();
         }
     }
 
@@ -173,13 +183,15 @@ public class LolaScript : MonoBehaviour
     private void PessegoGig(GameObject instancia){
         Destroy(instancia);
         pontos+=50;
+        string idPessego=instancia.GetComponent<PessegoGigante>().ID();
+        PessegoGigante.Coletar(idPessego);
     }
 
     private void Arco(){
         
     }
 
-    public void PausaNosControles(bool pausar){
+    public static void PausaNosControles(bool pausar){
         if(pausar)pausaNosControles=true;
         else pausaNosControles=false;
     }
